@@ -634,7 +634,7 @@ class Dataset(dict):
             generic_jpeg_file_header = b''
             frame_start_from = 0
         try:
-            UncompressedPixelData = ''
+            UncompressedPixelData = bytearray()
             if 'NumberOfFrames' in self and self.NumberOfFrames > 1:
                 # multiple compressed frames
                 CompressedPixelDataSeq = pydicom.encaps.decode_data_sequence(self.PixelData)
@@ -658,7 +658,7 @@ class Dataset(dict):
                 UncompressedPixelData = decompressed_image.tobytes()
         except:
             raise
-        return UncompressedPixelData
+        return bytes(UncompressedPixelData)
 
     def _get_jpeg_ls_supported_compressed_pixeldata(self):
         if not have_jpeg_ls:
